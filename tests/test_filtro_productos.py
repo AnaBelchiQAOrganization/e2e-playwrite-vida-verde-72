@@ -16,6 +16,12 @@ def test_filtrar_nombre_precio_categoria_con_resultados(page: Page):
     print("And filtra por precio máximo “25”")
     page.get_by_role("spinbutton", name="Precio máximo").fill("25")
 
+    print("Then debe ver el producto “Sansevieria”")
+    expect(page.get_by_role("heading", name="Sansevieria")).to_be_visible()
+
+    print("And debe ver la categoría “Plantas”")
+    expect(page.get_by_role("article").get_by_text("Plantas")).to_be_visible()
+
     print("And debe ver el precio “22”")
     expect(page.get_by_text("€")).to_be_visible()
 
