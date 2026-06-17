@@ -18,3 +18,14 @@ def test_filtrar_nombre_precio_categoria_con_resultados(page: Page):
 
     print("And debe ver el precio “22”")
     expect(page.get_by_text("€")).to_be_visible()
+
+
+def test_filtrar_sin_resultados(page: Page):
+    print("Given el usuario abre la página de productos")
+    page.goto("https://web-qa.dev.adalab.es/products")
+
+    print("When filtra por nombre no existente “Test”")
+    page.get_by_role("searchbox", name="Nombre").fill("Test")
+
+    print("Then ve el mensaje no se encontraron productos")
+    expect(page.get_by_text("No se encontraron productos")).to_be_visible()
