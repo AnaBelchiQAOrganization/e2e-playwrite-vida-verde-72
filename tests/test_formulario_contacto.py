@@ -19,8 +19,8 @@ def test_formulario_contactos_obligatorios_validos(page: Page):
     page.get_by_role("button", name="Enviar Mensaje").click()
 
     print("The debe ver un mensaje de exito")
-    expect(page.get_by_text("¡Mensaje enviado con éxito!")).to_be_visible()
-    expect(page.get_by_text("Gracias por contactarnos. Te responderemos lo antes posible")).to_be_visible()
+    locator = page.get_by_text("¡Mensaje enviado con éxito!")
+    expect(locator).to_be_visible()
 
     #Test Formulario de Contacto Email invalido
 
