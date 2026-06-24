@@ -1,5 +1,6 @@
 
 tests/__pycache__/*
+pages/__pycache__/*
 test-results/*
 .pytest_cache
 .html
