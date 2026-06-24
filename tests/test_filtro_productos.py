@@ -1,7 +1,7 @@
 from playwright.sync_api import Page, expect
 
 def test_filtrar_nombre_precio_categoria_con_resultados(page: Page):
-    print("Given el usuario abre la página de productos ")
+    print("Given el usuario abre la página de productos")
     page.goto("https://web-qa.dev.adalab.es/products")
 
     print("When filtra por nombre “Sanse”")
