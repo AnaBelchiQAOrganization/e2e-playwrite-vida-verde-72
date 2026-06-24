@@ -17,7 +17,7 @@ def test_ver_productos_y_detalles(page: Page):
     productos_page.verificar_categoria("Plantas")
 
     print("And la usuaria debe ver el nombre del producto 'Ficus Lyrata'")
-    # Comprobamos que la usuaria ve el nombre del producto "Ficus Lyrata"
+    # Comprobamos que la usuaria ve el nombre del producto "Fycus Lyrata"
     productos_page.verificar_nombre_producto("Ficus Lyrata")
 
     print("And la usuaria debe ver el precio del producto '35.00 €'")
