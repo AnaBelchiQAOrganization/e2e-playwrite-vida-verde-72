@@ -3,7 +3,7 @@
 En este proyecto se ha llevado a cabo un proceso completo de aseguramiento de la calidad (QA) sobre la funcionalidad principal de la web: https://web-qa.dev.adalab.es/
 El proyecto se ha realizado en equipo siguiendo metodología ágil Scrum y BDD para el diseño de las pruebas antes del desarrollo, siguiendo buenas prácticas de testing.
 
-## Plan de Pruebas, resultados y reporte de errores: [Ver Plan de Pruebas](https://github.com/Bootcamp-QA/plandepruebas.html)
+## Plan de Pruebas, resultados y reporte de errores: [Ver Plan de Pruebas](https://bootcampqa-equipo1.atlassian.net/wiki/spaces/E1/pages/98306/Plan+de+Pruebas+-+Web+Vida+Verde)
 En este documento se detalla el plan de pruebas, las funcionalidades probadas, el resultado de las pruebas ejecutadas y el reporte de errores.
 
 
