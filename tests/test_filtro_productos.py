@@ -8,7 +8,7 @@ def test_filtrar_nombre_precio_categoria_con_resultados(page: Page):
     page.get_by_role("searchbox", name="Nombre").fill("Sanse")
 
     print("And filtra por categoria “Plantas”")
-    page.get_by_label("CategoríaTodas las categorí").select_option("Plantas")
+    page.get_by_label("Categoría").select_option("Plantas")
     
     print("And filtra por precio minimo “10”")
     page.get_by_role("spinbutton", name="Precio mínimo").fill("10")
@@ -23,7 +23,7 @@ def test_filtrar_nombre_precio_categoria_con_resultados(page: Page):
     expect(page.get_by_role("article").get_by_text("Plantas")).to_be_visible()
 
     print("And debe ver el precio “22”")
-    expect(page.get_by_text("€")).to_be_visible()
+    expect(page.get_by_text("22.00 €")).to_be_visible()
 
 
 def test_filtrar_sin_resultados(page: Page):
