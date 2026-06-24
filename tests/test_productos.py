@@ -1,5 +1,5 @@
 from playwright.sync_api import Page, expect
-from ..pages.productos_page import ProductosPage
+from pages.productos_page import ProductosPage
 
 
 def test_ver_productos_y_detalles(page: Page):
