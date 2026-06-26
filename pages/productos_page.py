@@ -20,3 +20,18 @@ class ProductosPage:
 
     def verificar_precio_producto(self,precio):
         expect(self.page.get_by_text(precio)).to_be_visible()
+
+    def filtrar_por_nombre(self, nombre):
+        self.page.get_by_role("searchbox", name="Nombre").fill(nombre)
+
+    def filtrar_por_categoria(self, categoria):
+        self.page.get_by_label("Categoría").select_option(categoria)
+
+    def filtrar_precio_minimo(self, precio_min):
+        self.page.get_by_role("spinbutton", name="Precio Mínimo").fill(precio_min)
+
+    def filtrar_precio_maximo(self, precio_max):
+        self.page.get_by_role("spinbutton", name="Precio Máximo").fill(precio_max)
+
+    def verificar_mensaje_no_resultados(self):
+        expect(self.page.get_by_text("No se encontraron productos")).to_be_visible()

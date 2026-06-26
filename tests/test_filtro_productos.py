@@ -1,37 +1,44 @@
 from playwright.sync_api import Page, expect
+from pages.productos_page import ProductosPage
 
 def test_filtrar_nombre_precio_categoria_con_resultados(page: Page):
+    
+    productos_page = ProductosPage(page)
+
     print("Given el usuario abre la página de productos")
-    page.goto("https://web-qa.dev.adalab.es/products")
+    productos_page.visitar_productos()
 
     print("When filtra por nombre “Sanse”")
-    page.get_by_role("searchbox", name="Nombre").fill("Sanse")
+    productos_page.filtrar_por_nombre("Sanse")
 
     print("And filtra por categoria “Plantas”")
-    page.get_by_label("Categoría").select_option("Plantas")
+    productos_page.filtrar_por_categoria("Plantas")
     
     print("And filtra por precio minimo “10”")
-    page.get_by_role("spinbutton", name="Precio mínimo").fill("10")
+    productos_page.filtrar_precio_minimo("10")
     
     print("And filtra por precio máximo “25”")
-    page.get_by_role("spinbutton", name="Precio máximo").fill("25")
+    productos_page.filtrar_precio_maximo("25")
 
     print("Then debe ver el producto “Sansevieria”")
-    expect(page.get_by_role("heading", name="Sansevieria")).to_be_visible()
+    productos_page.verificar_nombre_producto("Sansevieria")
 
     print("And debe ver la categoría “Plantas”")
-    expect(page.get_by_role("article").get_by_text("Plantas")).to_be_visible()
+    productos_page.verificar_categoria("Plantas")
 
     print("And debe ver el precio “22”")
-    expect(page.get_by_text("22.00 €")).to_be_visible()
+    productos_page.verificar_precio_producto("22.00 €")
 
 
 def test_filtrar_sin_resultados(page: Page):
+
+    productos_page = ProductosPage(page)
+
     print("Given el usuario abre la página de productos")
-    page.goto("https://web-qa.dev.adalab.es/products")
+    productos_page.visitar_productos()
 
     print("When filtra por nombre no existente “Test”")
-    page.get_by_role("searchbox", name="Nombre").fill("Test")
+    productos_page.filtrar_por_nombre("Test")
 
     print("Then ve el mensaje no se encontraron productos")
-    expect(page.get_by_text("No se encontraron productos")).to_be_visible()
+    productos_page.verificar_mensaje_no_resultados()
