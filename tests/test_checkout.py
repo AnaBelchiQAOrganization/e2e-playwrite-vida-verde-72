@@ -20,6 +20,10 @@ def test_realizar_compra_datos_validos(page: Page):
     print("then debe ver en la página de checkout el resumen del pedido con el producto 'Juego de Palas'")
     expect(page.get_by_role("heading", name="Resumen del Pedido")).to_be_visible()
 
+    print("and nombre del producto es 'Juego de Palas'")
+    expect(page.get_by_role("listitem").filter(
+        has_text="Juego de Palas")).to_be_visible()
+    
     print("And el precio del producto es '15.99 €'")
     expect(page.get_by_role("listitem").filter(
         has_text="Juego de Palas15.99 €").locator("data")).to_be_visible()
