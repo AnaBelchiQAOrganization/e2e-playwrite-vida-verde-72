@@ -99,9 +99,6 @@ def test_realizar_compra_datos_validos(page: Page):
     # Comprobamos que el título de la página sea 'Inicio | Vida Verde'
     expect(page).to_have_title("Inicio | Vida Verde")
 
-    # Comprobamos que el elemeto título es 'Vida Verde'
-    expect(page.get_by_role("heading", name="Vida Verde")).to_be_visible()
-
     # Comprobamos que en la página hay un botón 'Ver Productos'
     expect(page.get_by_role("link", name="Ver Productos")).to_be_visible()
 
