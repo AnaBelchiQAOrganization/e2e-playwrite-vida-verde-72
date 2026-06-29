@@ -75,13 +75,16 @@ def test_realizar_compra_datos_validos(page: Page):
         has_text="15.99 €").locator("data")).to_be_visible()
 
     print("and el iva '3.36 €'")
-    expect(page.get_by_text("3.36 €")).to_be_visible()
-
+    expect(page.get_by_role("definition").filter(
+        has_text="3.36 €").locator("data")).to_be_visible()
+   
     print("and el envio '5.00 €'")
-    expect(page.get_by_text("5.00 €")).to_be_visible()
+    expect(page.get_by_role("definition").filter(
+        has_text="5.00 €").locator("data")).to_be_visible()
 
     print("and el total '24.35 €'")
-    expect(page.get_by_text("24.35 €")).to_be_visible()
+    expect(page.get_by_role("definition").filter(
+        has_text="24.35 €").locator("data")).to_be_visible()
 
     print("and hace clic el botón 'Ir al Inicio'")
     page.get_by_role("link", name="Ir al Inicio", exact=True).click()
