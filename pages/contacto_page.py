@@ -1,5 +1,6 @@
 from playwright.sync_api import Page, expect
 
+
 class ContactoPage:
 
     def __init__(self, page: Page):
@@ -26,7 +27,11 @@ class ContactoPage:
         expect(locator).to_be_visible()
 
     def verificar_mensaje_error_email(self):
-        expect(self.page.get_by_text("El formato del email no es válido")).to_be_visible()  
-    
+        expect(self.page.get_by_text(
+            "El formato del email no es válido")).to_be_visible()
+
     def verificar_mensaje_error_email_obligatorio(self):
         expect(self.page.get_by_text("El email es obligatorio")).to_be_visible()
+
+    def verificar_titulo(self, titulo):
+        expect(self.page.get_by_role("heading", name=titulo)).to_be_visible()

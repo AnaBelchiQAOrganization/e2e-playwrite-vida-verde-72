@@ -1,41 +1,55 @@
 from playwright.sync_api import Page, expect
 
+from pages.components.menu import MenuComponent
+from pages.contacto_page import ContactoPage
+from pages.inicio_page import InicioPage
+from pages.productos_page import ProductosPage
+from pages.quienes_somos_page import QuienesSomosPage
+
+
 def test_visitar_enlaces(page: Page):
-    print("Given el usuario abre la página de inicio")
-    page.goto("https://web-qa.dev.adalab.es/")
+
+    menu_component = MenuComponent(page)
+    inicio_page = InicioPage(page)
+    quienes_somos_page = QuienesSomosPage(page)
+    productos_page = ProductosPage(page)
+    contacto_page = ContactoPage(page)
+
+    print("Given la usuaria abre la página de inicio")
+    inicio_page.visitar_inicio()
 
     print("When visita el menú “Quiénes Somos”")
-    page.get_by_role("link", name="Quiénes Somos").click()
-    
+    menu_component.clic_menu("Quiénes Somos")
+
     print("Then debe ver la url “https://web-qa.dev.adalab.es/about”")
-    expect(page).to_have_url("https://web-qa.dev.adalab.es/about")
+    quienes_somos_page.verificar_url()
 
     print("And debe ver el titulo “Quiénes Somos”")
-    expect(page.get_by_role("heading", name="Quiénes Somos")).to_be_visible()
+    quienes_somos_page.verificar_titulo("Quiénes Somos")
 
     print("When visita el menú “Productos”")
-    page.get_by_role("link", name="Productos").click()
+    menu_component.clic_menu("Productos")
 
     print("Then debe ver la url “https://web-qa.dev.adalab.es/products”")
-    expect(page).to_have_url("https://web-qa.dev.adalab.es/products")
+    productos_page.visitar_productos()
 
     print("And debe ver el titulo “Catálogo de Productos”")
-    expect(page.get_by_role("heading", name="Catálogo de Productos")).to_be_visible()
+    productos_page.verificar_titulo("Catálogo de Productos")
 
     print("When visita el menú “Contacto”")
-    page.get_by_role("link", name="Contacto").click()
+    menu_component.clic_menu("Contacto")
 
     print("Then debe ver la url “https://web-qa.dev.adalab.es/contact”")
-    expect(page).to_have_url("https://web-qa.dev.adalab.es/contact")
+    contacto_page.visitar_contacto()
 
     print("And debe ver el titulo “Contáctanos”")
-    expect(page.get_by_role("heading", name="Contáctanos")).to_be_visible()
+    contacto_page.verificar_titulo("Contáctanos")
 
     print("When visita el menú “Inicio”")
-    page.get_by_role("link", name="Inicio", exact=True).click()
+    menu_component.clic_menu("Inicio")
 
     print("Then debe ver la url “https://web-qa.dev.adalab.es/”")
-    expect(page).to_have_url("https://web-qa.dev.adalab.es/")
+    inicio_page.verificar_url()
 
     print("And debe ver el titulo “Vida Verde”")
-    expect(page.get_by_role("heading", name="Vida Verde")).to_be_visible()
+    inicio_page.verificar_titulo("Vida Verde")

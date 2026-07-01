@@ -1,5 +1,6 @@
 from playwright.sync_api import Page, expect
 
+
 class ProductosPage:
 
     def __init__(self, page: Page):
@@ -9,17 +10,22 @@ class ProductosPage:
     def visitar_productos(self):
         self.page.goto(self.url)
 
-    def verificar_titulo(self):
-        expect(self.page.get_by_role("heading", name="Catálogo de Productos")).to_be_visible()
+    def verificar_titulo(self, titulo):
+        expect(self.page.get_by_role(
+            "heading", name=titulo)).to_be_visible()
 
-    def verificar_categoria(self,categoria):
+    def verificar_categoria(self, categoria):
         expect(self.page.get_by_text(categoria).nth(2)).to_be_visible()
 
     def verificar_nombre_producto(self, nombre):
         expect(self.page.get_by_role("heading", name=nombre)).to_be_visible()
 
-    def verificar_precio_producto(self,precio):
+    def verificar_precio_producto(self, precio):
         expect(self.page.get_by_text(precio)).to_be_visible()
+
+    def verificar_mensaje_no_resultados(self):
+        expect(self.page.get_by_text(
+            "No se encontraron productos")).to_be_visible()
 
     def filtrar_por_nombre(self, nombre):
         self.page.get_by_role("searchbox", name="Nombre").fill(nombre)
@@ -28,10 +34,9 @@ class ProductosPage:
         self.page.get_by_label("Categoría").select_option(categoria)
 
     def filtrar_precio_minimo(self, precio_min):
-        self.page.get_by_role("spinbutton", name="Precio Mínimo").fill(precio_min)
+        self.page.get_by_role(
+            "spinbutton", name="Precio Mínimo").fill(precio_min)
 
     def filtrar_precio_maximo(self, precio_max):
-        self.page.get_by_role("spinbutton", name="Precio Máximo").fill(precio_max)
-
-    def verificar_mensaje_no_resultados(self):
-        expect(self.page.get_by_text("No se encontraron productos")).to_be_visible()
+        self.page.get_by_role(
+            "spinbutton", name="Precio Máximo").fill(precio_max)
