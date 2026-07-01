@@ -11,7 +11,7 @@ def test_ver_productos_y_detalles(page: Page):
 
     print("Then la usuaria debe ver el título 'Catálogo de Productos'")
     # Comprobamos que la página contiene el título "Catálogo de Productos"
-    productos_page.verificar_titulo()
+    productos_page.verificar_titulo("Catálogo de Productos")
 
     print("And la usuaria debe ver la categoría del producto 'Plantas'")
     # Comprobamos que la usuaria ve la categoría del producto "Plantas"
