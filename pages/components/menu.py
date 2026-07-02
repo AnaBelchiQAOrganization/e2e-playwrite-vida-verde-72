@@ -17,3 +17,6 @@ class MenuComponent:
 
     def clic_finalizar_compra(self):
         self.page.get_by_role("link", name="Finalizar Compra").click()
+
+    def clic_carrito_de_la_compra(self):
+        self.page.get_by_role("link", name="Carrito de compra").click()
