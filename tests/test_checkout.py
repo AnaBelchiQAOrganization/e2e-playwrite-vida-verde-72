@@ -1,175 +1,185 @@
 from playwright.sync_api import Page, expect
 
+from pages.carrito_page import CarritoPage
+from pages.checkout_page import CheckoutPage
+from pages.components.menu import MenuComponent
+from pages.confirmation_page import ConfirmationPage
+from pages.inicio_page import InicioPage
+from pages.productos_page import ProductosPage
+
 
 def test_realizar_compra_datos_validos(page: Page):
+
+    productos_page = ProductosPage(page)
+    menu_component = MenuComponent(page)
+    carrito_page = CarritoPage(page)
+    checkout_page = CheckoutPage(page)
+    confirmation_page = ConfirmationPage(page)
+    inicio_page = InicioPage(page)
+
     print("Given la usuaria esta en la página de productos 'https://web-qa.dev.adalab.es/products'")
-    page.goto("https://web-qa.dev.adalab.es/products")
+    productos_page.visitar_productos()
 
     print("and filtra por nombre 'palas'")
-    page.get_by_role("searchbox", name="Nombre").fill("palas")
+    productos_page.filtrar_por_nombre("palas")
 
     print("and añade el producto al carrito")
-    page.get_by_role("button", name="Añadir Juego de Palas al").click()
+    productos_page.agregar_producto("Añadir Juego de Palas")
 
     print("and hace clic en finalizar compra")
-    page.get_by_role("link", name="Finalizar Compra").click()
+    menu_component.clic_finalizar_compra()
 
     print("and hace clic en 'Proceder al pago'")
-    page.get_by_role("link", name="Proceder al Pago").click()
+    carrito_page.proceder_al_pago()
 
     print("then debe ver en la página de checkout el resumen del pedido con el producto 'Juego de Palas'")
-    expect(page.get_by_role("heading", name="Resumen del Pedido")).to_be_visible()
+    checkout_page.verificar_titulo("Resumen del Pedido")
 
     print("and nombre del producto es 'Juego de Palas'")
-    expect(page.get_by_role("listitem").filter(
-        has_text="Juego de Palas")).to_be_visible()
-    
+    checkout_page.verificar_nombre_producto("Juego de Palas")
+
     print("And el precio del producto es '15.99 €'")
-    expect(page.get_by_role("listitem").filter(
-        has_text="Juego de Palas15.99 €").locator("data")).to_be_visible()
+    checkout_page.verificar_precio_producto("15.99 €")
 
     print("And el subtotal del producto es '15.99 €'")
-    expect(page.get_by_role("definition").filter(
-        has_text="15.99 €").locator("data")).to_be_visible()
+    checkout_page.verificar_desglose_precio("15.99 €")
 
     print("and el iva es '3.36 €'")
-    expect(page.get_by_text("3.36 €")).to_be_visible()
+    checkout_page.verificar_desglose_precio("3.36")
 
     print("and el envio es '5.00 €'")
-    expect(page.get_by_text("5.00 €")).to_be_visible()
+    checkout_page.verificar_desglose_precio("5.00 €")
 
     print("and el total es '24.35 €'")
-    expect(page.get_by_text("24.35 €")).to_be_visible()
+    checkout_page.verificar_total("24.35 €")
 
     print("When rellena el formulario con el nombre 'Elena Nito del Bosque'")
-    page.get_by_role(
-        "textbox", name="Nombre Completo *").fill("Elena Nito del Bosque")
+    checkout_page.rellenar_nombre("Elena Nito del Bosque")
 
     print("and rellena el email 'test@gmail.com'")
-    page.get_by_role("textbox", name="Email *").fill("test@gmail.com")
+    checkout_page.rellenar_email("test@gmail.com")
 
     print("and rellena la dirección 'Calle del Árbol, 8, Burgos'")
-    page.get_by_role(
-        "textbox", name="Dirección *").fill("Calle del Árbol, 8, Burgos")
+    checkout_page.rellenar_direccion("Calle del Árbol, 8, Burgos")
 
     print("and rellena la tarjeta válida '4242 4242 4242 4242'")
-    page.get_by_role(
-        "textbox", name="Número de Tarjeta de Crédito *").fill("4242 4242 4242 4242")
+    checkout_page.rellenar_tarjeta("4242424242424242")
 
     print("and hace clic en el botón 'Completar compra'")
-    page.get_by_role("button", name="Completar Compra").click()
+    checkout_page.completar_compra()
 
     print("then debe ver el mensaje 'Compra Realizada con Éxito'")
-    expect(page.get_by_role(
-        "heading", name="¡Compra Realizada con Éxito!")).to_be_visible()
+    confirmation_page.verificar_mensaje_compra_exito()
 
     print("and debe ver el resumen del pedido con el producto 'Juego de Palas'")
-    expect(page.get_by_text("Juego de Palas")).to_be_visible()
+    confirmation_page.verificar_producto("Juego de Palas")
 
     print("and el precio del producto '15.99 €'")
-    expect(page.get_by_role("listitem").filter(
-        has_text="Juego de Palas15.99 €").locator("data")).to_be_visible()
+    confirmation_page.verificar_precio_producto("15.99 €")
 
     print("and el subtotal '15.99 €'")
-    expect(page.get_by_role("definition").filter(
-        has_text="15.99 €").locator("data")).to_be_visible()
+    confirmation_page.verificar_desglose_producto("15.99 €")
 
     print("and el iva '3.36 €'")
-    expect(page.get_by_role("definition").filter(
-        has_text="3.36 €").locator("data")).to_be_visible()
-   
+    confirmation_page.verificar_desglose_producto("3.36 €")
+
     print("and el envio '5.00 €'")
-    expect(page.get_by_role("definition").filter(
-        has_text="5.00 €").locator("data")).to_be_visible()
+    confirmation_page.verificar_desglose_producto("5.00 €")
 
     print("and el total '24.35 €'")
-    expect(page.get_by_role("definition").filter(
-        has_text="24.35 €").locator("data")).to_be_visible()
+    confirmation_page.verificar_total("24.35 €")
 
     print("and hace clic el botón 'Ir al Inicio'")
-    page.get_by_role("link", name="Ir al Inicio", exact=True).click()
+    confirmation_page.ir_a_inicio()
 
     print("then debe estar la página de inicio 'https://web-qa.dev.adalab.es/'")
     # Comprobamos que la url de la página contiene la url 'https://web-qa.dev.adalab.es/'
-    expect(page).to_have_url('https://web-qa.dev.adalab.es/')
+    inicio_page.verificar_url()
 
     # Comprobamos que el título de la página sea 'Vida Verde'
-    expect(page.get_by_role("heading", name="Vida Verde")).to_be_visible()
+    inicio_page.verificar_titulo("Vida Verde")
 
     # Comprobamos que el título de la página sea 'Inicio | Vida Verde'
-    expect(page).to_have_title("Inicio | Vida Verde")
+    inicio_page.verificar_titulo_pagina("Inicio | Vida Verde")
 
     # Comprobamos que en la página hay un botón 'Ver Productos'
-    expect(page.get_by_role("link", name="Ver Productos")).to_be_visible()
+    inicio_page.verificar_boton_productos("Ver Productos")
 
 
 def test_realizar_compra_con_tarjeta_invalida(page: Page):
-    print("Given la usuaria esta en la página de productos 'https://web-qa.dev.adalab.es/products'")
-    page.goto("https://web-qa.dev.adalab.es/products")
 
-    print("and filtra por nombre 'Palas'")
-    page.get_by_role("searchbox", name="Nombre").fill("palas")
+    productos_page = ProductosPage(page)
+    menu_component = MenuComponent(page)
+    carrito_page = CarritoPage(page)
+    checkout_page = CheckoutPage(page)
+
+    print("Given la usuaria esta en la página de productos 'https://web-qa.dev.adalab.es/products'")
+    productos_page.visitar_productos()
+
+    print("and filtra por nombre 'palas'")
+    productos_page.filtrar_por_nombre("palas")
 
     print("and añade el producto al carrito")
-    page.get_by_role("button", name="Añadir Juego de Palas al").click()
+    productos_page.agregar_producto("Añadir Juego de Palas")
 
     print("and hace clic en 'Finalizar Compra'")
-    page.get_by_role("link", name="Finalizar Compra").click()
+    menu_component.clic_finalizar_compra()
 
     print("and hace clic en 'Proceder al Pago'")
-    page.get_by_role("link", name="Proceder al Pago").click()
+    carrito_page.proceder_al_pago()
 
     print("When rellena el formulario con el nombre 'Elena Nito del Bosque'")
-    page.get_by_role(
-        "textbox", name="Nombre Completo *").fill("Elena Nito del Bosque")
+    checkout_page.rellenar_nombre("Elena Nito del Bosque")
 
     print("and rellena el email 'test@gmail.com'")
-    page.get_by_role("textbox", name="Email *").fill("test@gmail.com")
+    checkout_page.rellenar_email("test@gmail.com")
 
     print("and rellena la dirección 'Calle del Árbol, 8, Burgos'")
-    page.get_by_role(
-        "textbox", name="Dirección *").fill("Calle del Árbol, 8, Burgos")
+    checkout_page.rellenar_direccion("Calle del Árbol, 8, Burgos")
 
     print("and rellena la tarjeta inválida '1234'")
-    page.get_by_role(
-        "textbox", name="Número de Tarjeta de Crédito *").fill("1234")
+    checkout_page.rellenar_tarjeta("1234")
 
     print("and hace clic en Completar Compra")
-    page.get_by_role("button", name="Completar compra").click()
+    checkout_page.completar_compra()
 
     print("then debe ver un mensaje de error numero de tarjeta invalido")
-    expect(page.get_by_text("El número de tarjeta debe")).to_be_visible()
+    checkout_page.verificar_mensaje_error_tarjeta("El número de tarjeta debe")
 
 
 def test_realizar_compra_con_tarjeta_vacia(page: Page):
+
+    productos_page = ProductosPage(page)
+    menu_component = MenuComponent(page)
+    carrito_page = CarritoPage(page)
+    checkout_page = CheckoutPage(page)
+
     print("Given la usuaria esta en la página de productos 'https://web-qa.dev.adalab.es/products'")
-    page.goto("https://web-qa.dev.adalab.es/products")
+    productos_page.visitar_productos()
 
     print("and filtra por nombre 'Palas'")
-    page.get_by_role("searchbox", name="Nombre").fill("Palas")
+    productos_page.filtrar_por_nombre("palas")
 
     print("and añade el producto al carrito")
-    page.get_by_role("button", name="Añadir juego de Palas al carrito").click()
+    productos_page.agregar_producto("Añadir juego de Palas")
 
     print("and hace clic en ‘Finalizar Compra’")
-    page.get_by_role("link", name="Finalizar Compra").click()
+    menu_component.clic_finalizar_compra()
 
     print("and hace clic en ‘Proceder al Pago’")
-    page.get_by_role("link", name="Proceder al Pago").click()
+    carrito_page.proceder_al_pago()
 
     print("When rellena el formulario con el nombre ‘Elena Nito del Bosque’")
-    page.get_by_role(
-        "textbox", name="Nombre Completo *").fill("Elena nito del Bosque")
+    checkout_page.rellenar_nombre("Elena nito del Bosque")
 
     print("and rellena el email ‘test@gmail.com’")
-    page.get_by_role("textbox", name="Email *").fill("test@gamil.com")
+    checkout_page.rellenar_email("test@gamil.com")
 
     print("and rellena la dirección ‘Calle del Árbol., 8, Burgos’")
-    page.get_by_role(
-        "textbox", name="Dirección *").fill("Calle del Árbol., 8, Burgo")
+    checkout_page.rellenar_direccion("Calle del Árbol., 8, Burgos")
 
     print("and hace clic en ‘Completar Compra’")
-    page.get_by_role("button", name="Completar Compra").click()
+    checkout_page.completar_compra()
 
     print("then NO debe ver el mensaje 'Compra realizada con éxito'")
-    expect(page.get_by_text("Compra realizada con éxito")).not_to_be_visible()
+    checkout_page.verificar_no_mensaje_exito()

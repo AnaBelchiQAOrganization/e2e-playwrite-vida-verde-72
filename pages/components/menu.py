@@ -14,3 +14,6 @@ class MenuComponent:
             self.page.get_by_role("menuitem", name=menu_title).click()
         else:
             self.page.get_by_role("link", name=menu_title, exact=True).click()
+
+    def clic_finalizar_compra(self):
+        self.page.get_by_role("link", name="Finalizar Compra").click()
